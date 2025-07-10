@@ -1,0 +1,18 @@
+module contadorM_10 (input clk, rst,
+                    output reg [0:3] cont);
+  
+  always @ (negedge rst)
+    begin
+      cont = 4'h0;
+    end
+  
+  always @ (posedge clk)
+    begin
+      if(cont == 4'h9) begin
+        cont = 4'h0;
+      end
+      else begin
+        cont = cont + 4'h1;
+      end
+    end
+endmodule

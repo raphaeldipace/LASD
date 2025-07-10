@@ -1,0 +1,56 @@
+module UnidadeDeControle(
+	input [5:0] OP, Funct, 
+	output RegWrite, RegDst, ULASrc, [2:0] ULAControl, Branch, MemWrite, MemtoReg, Jump
+);
+
+    always @* begin
+        case(OP)
+            6'b000000: begin // Instruções tipo R
+                RegWrite = 1;
+                RegDst = 1;
+                case(Funct)
+                    6'b100000: ULAControl = 3'b010; // ADD
+                    6'b100010: ULAControl = 3'b110; // SUB
+                    6'b100100: ULAControl = 3'b000; // AND
+                    6'b100101: ULAControl = 3'b001; // OR
+                    6'b100111: ULAControl = 3'b011; // NOR
+                    6'b101010: ULAControl = 3'b111; // SLT
+                    default: ULAControl = 3'b000;
+                endcase
+            end
+            6'b100011: begin // LW
+                RegWrite = 1;
+                ULASrc = 1;
+                ULAControl = 3'b010;
+                MemtoReg = 1;
+            end
+            6'b101011: begin // SW
+                ULASrc = 1;
+                ULAControl = 3'b010;
+                MemWrite = 1;
+            end
+            6'b000100: begin // BEQ
+                ULAControl = 3'b110;
+                Branch = 1;
+            end
+            6'b001000: begin // ADDi
+                RegWrite = 1;
+                ULASrc = 1;
+                ULAControl = 3'b010;
+            end
+            6'b000010: begin // J
+                Jump = 1;
+            end
+            default: begin
+                RegWrite = 0;
+                RegDst = 0;
+                ULASrc = 0;
+                ULAControl = 3'b000;
+                Branch = 0;
+                MemWrite = 0;
+                MemtoReg = 0;
+                Jump = 0;
+            end
+        endcase
+    end
+endmodule

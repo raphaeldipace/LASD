@@ -1,0 +1,14 @@
+module decod_animacao (input [0:2] hex,
+                       output reg [0:6] seg);
+  always @ * begin
+    case(hex)
+      4'h0: seg = 7'b00000001;
+      4'h1: seg = 7'b1011111; 
+      4'h2: seg = 7'b1101111; 
+      4'h3: seg = 7'b1110111; 
+      4'h4: seg = 7'b1111011; 
+      4'h5: seg = 7'b1111110; 
+      default : seg = 7'b1111111;
+	endcase
+  end
+endmodule

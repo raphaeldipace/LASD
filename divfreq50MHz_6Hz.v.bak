@@ -1,0 +1,24 @@
+module divfreq50MHz_6Hz(input clock50,
+                        output reg clock6);
+  reg [0:25] cont;
+  
+  initial 
+    begin
+      cont = 26'd0;
+    end
+  
+  always @ (posedge clock50)
+    begin
+      if(cont == 26'd8333333) begin
+        clock6 = 1'b1;
+        cont = 26'd0;
+      end
+      else begin
+        cont = cont + 26'd1;
+      end
+      if(cont == 26'd4166666) begin
+        clock1 = 1'b0;
+      end
+    end
+
+endmodule
